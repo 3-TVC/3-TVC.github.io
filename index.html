@@ -30,11 +30,15 @@
     --amber-bg: rgba(255, 146, 43, 0.06);
     --amber-border: rgba(255, 146, 43, 0.18);
 
+    --green-300: #8ce99a;
+    --green-400: #69db7c;
+    --green-500: #51cf66;
+    --green-bg: rgba(81, 207, 102, 0.06);
+    --green-border: rgba(81, 207, 102, 0.18);
+
     --text-primary: #f0f4fc;
     --text-secondary: rgba(224, 232, 248, 0.65);
     --text-muted: rgba(200, 212, 240, 0.35);
-    --border-subtle: rgba(59, 158, 255, 0.08);
-    --border-light: rgba(59, 158, 255, 0.14);
 
     --glass-bg: rgba(13, 18, 37, 0.55);
     --glass-border: rgba(59, 158, 255, 0.1);
@@ -43,7 +47,6 @@
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
-    --radius-xl: 28px;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -127,8 +130,7 @@
   /* ========== BLACK HOLE ========== */
   .singularity {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: min(900px, 90vw);
     height: min(900px, 90vw);
@@ -376,8 +378,14 @@
     box-shadow: 0 8px 40px rgba(255,146,43,0.05);
   }
 
-  .card:nth-child(1) { animation-delay: 0.25s; }
-  .card:nth-child(2) { animation-delay: 0.45s; }
+  .card.--urgent:hover {
+    border-color: var(--green-border);
+    box-shadow: 0 8px 40px rgba(81,207,102,0.05);
+  }
+
+  .card:nth-child(1) { animation-delay: 0.15s; }
+  .card:nth-child(2) { animation-delay: 0.35s; }
+  .card:nth-child(3) { animation-delay: 0.55s; }
 
   @keyframes reveal-up {
     from { opacity: 0; transform: translateY(32px); }
@@ -395,6 +403,11 @@
 
   .card.--warning::before {
     background: linear-gradient(90deg, transparent, var(--amber-400), transparent);
+    opacity: 0.5;
+  }
+
+  .card.--urgent::before {
+    background: linear-gradient(90deg, transparent, var(--green-400), transparent);
     opacity: 0.5;
   }
 
@@ -434,6 +447,11 @@
     border-color: rgba(255,146,43,0.15);
   }
 
+  .card.--urgent .card-icon {
+    background: linear-gradient(145deg, rgba(81,207,102,0.08), rgba(81,207,102,0.03));
+    border-color: rgba(81,207,102,0.15);
+  }
+
   .card-info { flex: 1; min-width: 0; }
 
   .card-label {
@@ -447,6 +465,7 @@
   }
 
   .card.--warning .card-label { color: var(--amber-400); }
+  .card.--urgent .card-label { color: var(--green-400); }
 
   .card-heading {
     font-family: 'Syne', sans-serif;
@@ -494,10 +513,14 @@
   }
   .card.--warning .tag.--date svg path { fill: var(--amber-300); }
 
+  .card.--urgent .tag.--date {
+    background: var(--green-bg);
+    border-color: var(--green-border);
+    color: var(--green-300);
+  }
+  .card.--urgent .tag.--date svg path { fill: var(--green-300); }
+
   .tag.--status {
-    background: var(--amber-bg);
-    border: 1px solid var(--amber-border);
-    color: var(--amber-400);
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
     font-size: clamp(9px, 1vw, 11px);
@@ -505,12 +528,26 @@
     text-transform: uppercase;
   }
 
+  .tag.--status.--unconfirmed {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    color: var(--amber-400);
+  }
+
+  .tag.--status.--soon {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    color: var(--green-400);
+  }
+
   .tag.--status .blink {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--amber-400);
     animation: beacon 1.8s ease-in-out infinite;
   }
+
+  .tag.--status.--unconfirmed .blink { background: var(--amber-400); }
+  .tag.--status.--soon .blink { background: var(--green-400); }
 
   .card-body {
     font-family: 'DM Sans', sans-serif;
@@ -529,6 +566,42 @@
   }
 
   .card.--warning .card-body em { color: var(--amber-300); }
+  .card.--urgent .card-body em { color: var(--green-300); }
+
+  /* ========== INFO TIP ========== */
+  .card-tip {
+    margin-top: clamp(12px, 1.5vw, 16px);
+    padding: clamp(12px, 1.5vw, 16px) clamp(14px, 2vw, 20px);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-tip.--info {
+    background: rgba(59, 158, 255, 0.04);
+    border-left: 2.5px solid rgba(59, 158, 255, 0.3);
+  }
+
+  .card-tip.--warn {
+    background: rgba(255, 146, 43, 0.04);
+    border-left: 2.5px solid rgba(255, 146, 43, 0.35);
+  }
+
+  .card-tip.--green {
+    background: rgba(81, 207, 102, 0.04);
+    border-left: 2.5px solid rgba(81, 207, 102, 0.3);
+  }
+
+  .card-tip p {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: clamp(12px, 1.3vw, 13.5px);
+    line-height: 1.65;
+  }
+
+  .card-tip.--info p { color: rgba(165, 216, 255, 0.55); }
+  .card-tip.--warn p { color: rgba(255, 192, 120, 0.6); }
+  .card-tip.--green p { color: rgba(140, 233, 154, 0.55); }
 
   /* ========== GROUP ROSTER ========== */
   .roster {
@@ -594,10 +667,7 @@
     opacity: 0.6;
   }
 
-  .roster-content {
-    flex: 1;
-    min-width: 0;
-  }
+  .roster-content { flex: 1; min-width: 0; }
 
   .roster-members {
     font-family: 'DM Sans', sans-serif;
@@ -615,25 +685,6 @@
     opacity: 0.75;
     margin-top: 2px;
     letter-spacing: 0.3px;
-  }
-
-  /* ========== ALERT BOX ========== */
-  .card-alert {
-    margin-top: clamp(12px, 1.5vw, 16px);
-    padding: clamp(12px, 1.5vw, 16px) clamp(14px, 2vw, 20px);
-    background: rgba(255,146,43,0.04);
-    border-left: 2.5px solid rgba(255,146,43,0.35);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  .card-alert p {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    font-size: clamp(12px, 1.3vw, 13.5px);
-    color: rgba(255,192,120,0.6);
-    line-height: 1.65;
   }
 
   /* ========== FOOTER ========== */
@@ -685,7 +736,7 @@
     .singularity { width: 300px; height: 300px; }
   }
 
-  @media (min-width: 1200px) and (min-height: 900px) {
+  @media (min-width: 1200px) and (min-height: 1000px) {
     .page { justify-content: center; }
   }
 </style>
@@ -727,7 +778,34 @@
 
     <main class="feed">
 
-      <!-- ★ FILOSOFIA ★ -->
+      <!-- ✍️ PROJETO DE VIDA — URGENTE (mais próximo) -->
+      <article class="card --urgent">
+        <div class="card-top">
+          <div class="card-icon">✍️</div>
+          <div class="card-info">
+            <div class="card-label">Atividade</div>
+            <h2 class="card-heading">Projeto de Vida — Autobiografia</h2>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="tag --date">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            Quinta-feira — 26/02
+          </div>
+          <div class="tag --status --soon">
+            <div class="blink"></div>
+            Esta semana
+          </div>
+        </div>
+        <div class="card-body">
+          Escrever uma <em>autobiografia</em>. Não é necessário incluir tudo — detalhes do passado que não se sinta confortável ou ache desnecessário podem ser omitidos. Pode focar apenas no <em>presente</em> ou no <em>futuro</em>.
+        </div>
+        <div class="card-tip --green">
+          <p>💡 Dica: foque no que te define hoje e nos seus planos. Não precisa expor nada que não queira — o importante é a reflexão pessoal.</p>
+        </div>
+      </article>
+
+      <!-- 📚 FILOSOFIA -->
       <article class="card">
         <div class="card-top">
           <div class="card-icon">📚</div>
@@ -746,11 +824,9 @@
           Pesquisa no formato <em>ABNT</em>, sobre uma <em>mulher brasileira</em> da área da filosofia ou ciências.
         </div>
 
-        <!-- Group roster -->
         <div class="roster">
           <div class="roster-title">✦ Grupos & Temas ✦</div>
           <div class="roster-grid">
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -758,7 +834,6 @@
                 <div class="roster-topic">Djamila Ribeiro</div>
               </div>
             </div>
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -766,7 +841,6 @@
                 <div class="roster-topic">Sueli Carneiro</div>
               </div>
             </div>
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -774,7 +848,6 @@
                 <div class="roster-topic">Lélia Gonzalez</div>
               </div>
             </div>
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -782,7 +855,6 @@
                 <div class="roster-topic">Viviane Mosé</div>
               </div>
             </div>
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -790,7 +862,6 @@
                 <div class="roster-topic">Carolina Maria de Jesus</div>
               </div>
             </div>
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -798,7 +869,6 @@
                 <div class="roster-topic">Jaqueline Góes de Jesus</div>
               </div>
             </div>
-
             <div class="roster-item">
               <span class="roster-star">★</span>
               <div class="roster-content">
@@ -806,7 +876,6 @@
                 <div class="roster-topic">Márcia Barbosa</div>
               </div>
             </div>
-
           </div>
         </div>
       </article>
@@ -825,7 +894,7 @@
             <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
             A definir
           </div>
-          <div class="tag --status">
+          <div class="tag --status --unconfirmed">
             <div class="blink"></div>
             Sem confirmação
           </div>
@@ -833,7 +902,7 @@
         <div class="card-body">
           Criar um <em>panfleto de conscientização</em> acerca das cobras endêmicas do Espírito Santo.
         </div>
-        <div class="card-alert">
+        <div class="card-tip --warn">
           <p>⚠ Sem confirmação oficial. Talvez o novo professor assuma esse trabalho e pontue. Aguardar atualização.</p>
         </div>
       </article>
@@ -853,4 +922,3 @@
 
 </body>
 </html>
-
