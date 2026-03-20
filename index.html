@@ -36,6 +36,12 @@
     --green-bg: rgba(81, 207, 102, 0.06);
     --green-border: rgba(81, 207, 102, 0.18);
 
+    --purple-300: #d0bfff;
+    --purple-400: #b197fc;
+    --purple-500: #9775fa;
+    --purple-bg: rgba(151, 117, 250, 0.06);
+    --purple-border: rgba(151, 117, 250, 0.18);
+
     --text-primary: #f0f4fc;
     --text-secondary: rgba(224, 232, 248, 0.65);
     --text-muted: rgba(200, 212, 240, 0.35);
@@ -383,9 +389,18 @@
     box-shadow: 0 8px 40px rgba(81,207,102,0.05);
   }
 
-  .card:nth-child(1) { animation-delay: 0.15s; }
-  .card:nth-child(2) { animation-delay: 0.35s; }
-  .card:nth-child(3) { animation-delay: 0.55s; }
+  .card.--purple:hover {
+    border-color: var(--purple-border);
+    box-shadow: 0 8px 40px rgba(151,117,250,0.05);
+  }
+
+  .card:nth-child(1) { animation-delay: 0.10s; }
+  .card:nth-child(2) { animation-delay: 0.20s; }
+  .card:nth-child(3) { animation-delay: 0.30s; }
+  .card:nth-child(4) { animation-delay: 0.40s; }
+  .card:nth-child(5) { animation-delay: 0.50s; }
+  .card:nth-child(6) { animation-delay: 0.60s; }
+  .card:nth-child(7) { animation-delay: 0.70s; }
 
   @keyframes reveal-up {
     from { opacity: 0; transform: translateY(32px); }
@@ -408,6 +423,11 @@
 
   .card.--urgent::before {
     background: linear-gradient(90deg, transparent, var(--green-400), transparent);
+    opacity: 0.5;
+  }
+
+  .card.--purple::before {
+    background: linear-gradient(90deg, transparent, var(--purple-400), transparent);
     opacity: 0.5;
   }
 
@@ -452,6 +472,11 @@
     border-color: rgba(81,207,102,0.15);
   }
 
+  .card.--purple .card-icon {
+    background: linear-gradient(145deg, rgba(151,117,250,0.08), rgba(151,117,250,0.03));
+    border-color: rgba(151,117,250,0.15);
+  }
+
   .card-info { flex: 1; min-width: 0; }
 
   .card-label {
@@ -466,6 +491,7 @@
 
   .card.--warning .card-label { color: var(--amber-400); }
   .card.--urgent .card-label { color: var(--green-400); }
+  .card.--purple .card-label { color: var(--purple-400); }
 
   .card-heading {
     font-family: 'Syne', sans-serif;
@@ -520,6 +546,13 @@
   }
   .card.--urgent .tag.--date svg path { fill: var(--green-300); }
 
+  .card.--purple .tag.--date {
+    background: var(--purple-bg);
+    border-color: var(--purple-border);
+    color: var(--purple-300);
+  }
+  .card.--purple .tag.--date svg path { fill: var(--purple-300); }
+
   .tag.--status {
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
@@ -567,6 +600,7 @@
 
   .card.--warning .card-body em { color: var(--amber-300); }
   .card.--urgent .card-body em { color: var(--green-300); }
+  .card.--purple .card-body em { color: var(--purple-300); }
 
   /* ========== INFO TIP ========== */
   .card-tip {
@@ -592,6 +626,11 @@
     border-left: 2.5px solid rgba(81, 207, 102, 0.3);
   }
 
+  .card-tip.--purple {
+    background: rgba(151, 117, 250, 0.04);
+    border-left: 2.5px solid rgba(151, 117, 250, 0.3);
+  }
+
   .card-tip p {
     font-family: 'DM Sans', sans-serif;
     font-weight: 400;
@@ -602,97 +641,14 @@
   .card-tip.--info p { color: rgba(165, 216, 255, 0.55); }
   .card-tip.--warn p { color: rgba(255, 192, 120, 0.6); }
   .card-tip.--green p { color: rgba(140, 233, 154, 0.55); }
-
-  /* ========== GROUP ROSTER ========== */
-  .roster {
-    position: relative;
-    z-index: 1;
-    margin-top: clamp(18px, 2vw, 24px);
-  }
-
-  .roster-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(12px, 1.3vw, 14px);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--blue-300);
-    text-align: center;
-    margin-bottom: clamp(14px, 1.8vw, 20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .roster-title::before,
-  .roster-title::after {
-    content: '';
-    flex: 1;
-    max-width: 80px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(59,158,255,0.2));
-  }
-
-  .roster-title::after {
-    background: linear-gradient(90deg, rgba(59,158,255,0.2), transparent);
-  }
-
-  .roster-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-    gap: clamp(8px, 1vw, 12px);
-  }
-
-  .roster-item {
-    display: flex;
-    align-items: center;
-    gap: clamp(10px, 1.2vw, 14px);
-    padding: clamp(10px, 1.2vw, 14px) clamp(14px, 1.5vw, 18px);
-    background: rgba(59, 158, 255, 0.03);
-    border: 1px solid rgba(59, 158, 255, 0.07);
-    border-radius: var(--radius-sm);
-    transition: background 0.3s ease, border-color 0.3s ease;
-  }
-
-  .roster-item:hover {
-    background: rgba(59, 158, 255, 0.06);
-    border-color: rgba(59, 158, 255, 0.14);
-  }
-
-  .roster-star {
-    font-size: clamp(11px, 1.2vw, 14px);
-    color: var(--accent);
-    flex-shrink: 0;
-    opacity: 0.6;
-  }
-
-  .roster-content { flex: 1; min-width: 0; }
-
-  .roster-members {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: clamp(12.5px, 1.3vw, 14.5px);
-    color: var(--text-primary);
-    line-height: 1.4;
-  }
-
-  .roster-topic {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 500;
-    font-size: clamp(10px, 1.1vw, 12px);
-    color: var(--blue-400);
-    opacity: 0.75;
-    margin-top: 2px;
-    letter-spacing: 0.3px;
-  }
+  .card-tip.--purple p { color: rgba(208, 191, 255, 0.55); }
 
   /* ========== FOOTER ========== */
   .bottom {
     text-align: center;
     margin-top: clamp(32px, 4vw, 48px);
     padding-bottom: clamp(12px, 2vw, 24px);
-    animation: reveal-up 0.9s cubic-bezier(0.22,1,0.36,1) 0.7s both;
+    animation: reveal-up 0.9s cubic-bezier(0.22,1,0.36,1) 0.9s both;
   }
 
   .bottom-rule {
@@ -727,17 +683,12 @@
     .singularity { width: min(420px, 95vw); height: min(420px, 95vw); }
     .hero-chip { padding: 5px 16px; gap: 8px; }
     .hero-line { display: none; }
-    .roster-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 400px) {
     .card-top { flex-direction: column; gap: 10px; }
     .card-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
     .singularity { width: 300px; height: 300px; }
-  }
-
-  @media (min-width: 1200px) and (min-height: 1000px) {
-    .page { justify-content: center; }
   }
 </style>
 </head>
@@ -768,7 +719,7 @@
     <header class="hero">
       <div class="hero-chip">
         <div class="hero-chip-pulse"></div>
-        <span class="hero-chip-label">Ano Letivo 2026</span>
+        <span class="hero-chip-label">Ano Letivo 2025</span>
       </div>
       <h1 class="hero-title">Agenda da Turma</h1>
       <div class="hero-class">3 M01 — EM — TVC</div>
@@ -778,19 +729,19 @@
 
     <main class="feed">
 
-      <!-- ✍️ PROJETO DE VIDA — URGENTE (mais próximo) -->
+      <!-- 📝 RECUPERAÇÃO DE SOCIOLOGIA -->
       <article class="card --urgent">
         <div class="card-top">
-          <div class="card-icon">✍️</div>
+          <div class="card-icon">📝</div>
           <div class="card-info">
-            <div class="card-label">Atividade</div>
-            <h2 class="card-heading">Projeto de Vida — Autobiografia</h2>
+            <div class="card-label">Recuperação</div>
+            <h2 class="card-heading">Recuperação de Sociologia</h2>
           </div>
         </div>
         <div class="card-meta">
           <div class="tag --date">
             <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-            Quinta-feira — 26/02
+            Quinta-feira — 19/03
           </div>
           <div class="tag --status --soon">
             <div class="blink"></div>
@@ -798,95 +749,77 @@
           </div>
         </div>
         <div class="card-body">
-          Escrever uma <em>autobiografia</em>. Não é necessário incluir tudo — detalhes do passado que não se sinta confortável ou ache desnecessário podem ser omitidos. Pode focar apenas no <em>presente</em> ou no <em>futuro</em>.
-        </div>
-        <div class="card-tip --green">
-          <p>💡 Dica: foque no que te define hoje e nos seus planos. Não precisa expor nada que não queira — o importante é a reflexão pessoal.</p>
+          <em>Apresentação</em> ou <em>trabalho no formato ABNT</em>, manuscrito.
         </div>
       </article>
 
-      <!-- 📚 FILOSOFIA -->
-      <article class="card">
+      <!-- 🟣 PASSEATA — VIOLÊNCIA CONTRA A MULHER -->
+      <article class="card --purple">
         <div class="card-top">
-          <div class="card-icon">📚</div>
+          <div class="card-icon">✊</div>
           <div class="card-info">
-            <div class="card-label">Trabalho</div>
-            <h2 class="card-heading">Trabalho de Filosofia</h2>
+            <div class="card-label">Evento</div>
+            <h2 class="card-heading">Passeata — Violência contra a Mulher</h2>
           </div>
         </div>
         <div class="card-meta">
           <div class="tag --date">
             <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-            09/03 — 14/03
+            Quinta-feira — 26/03
           </div>
         </div>
         <div class="card-body">
-          Pesquisa no formato <em>ABNT</em>, sobre uma <em>mulher brasileira</em> da área da filosofia ou ciências.
-        </div>
-
-        <div class="roster">
-          <div class="roster-title">✦ Grupos & Temas ✦</div>
-          <div class="roster-grid">
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Laura e grupo</div>
-                <div class="roster-topic">Djamila Ribeiro</div>
-              </div>
-            </div>
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Marina e dupla</div>
-                <div class="roster-topic">Sueli Carneiro</div>
-              </div>
-            </div>
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Sara e grupo</div>
-                <div class="roster-topic">Lélia Gonzalez</div>
-              </div>
-            </div>
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Rhuan</div>
-                <div class="roster-topic">Viviane Mosé</div>
-              </div>
-            </div>
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Dayane, Dyana e Elainy</div>
-                <div class="roster-topic">Carolina Maria de Jesus</div>
-              </div>
-            </div>
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Wanderson, Luiz, Eduardo e Pedro Vittor</div>
-                <div class="roster-topic">Jaqueline Góes de Jesus</div>
-              </div>
-            </div>
-            <div class="roster-item">
-              <span class="roster-star">★</span>
-              <div class="roster-content">
-                <div class="roster-members">Cristyan e Marcos Vinícios</div>
-                <div class="roster-topic">Márcia Barbosa</div>
-              </div>
-            </div>
-          </div>
+          Passeata acerca da <em>violência contra a mulher</em>, onde visitaremos a <em>Câmara Municipal</em>.
         </div>
       </article>
 
-      <!-- 🐍 BIOLOGIA -->
+      <!-- 🎭 TROTE DAS FANTASIAS -->
+      <article class="card">
+        <div class="card-top">
+          <div class="card-icon">🎭</div>
+          <div class="card-info">
+            <div class="card-label">Evento</div>
+            <h2 class="card-heading">Trote das Fantasias</h2>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="tag --date">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            Sexta-feira — 27/03
+          </div>
+        </div>
+        <div class="card-body">
+          Dia do <em>trote das fantasias</em>. Venham fantasiados!
+        </div>
+      </article>
+
+      <!-- 📖 AMA DE PORTUGUÊS -->
+      <article class="card">
+        <div class="card-top">
+          <div class="card-icon">📖</div>
+          <div class="card-info">
+            <div class="card-label">Avaliação</div>
+            <h2 class="card-heading">AMA de Português</h2>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="tag --date">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            Quarta ou Quinta — 08~09/04
+          </div>
+        </div>
+        <div class="card-body">
+          <em>AMA de Português</em>. Data entre quarta-feira (08/04) e quinta-feira (09/04).
+        </div>
+      </article>
+
+      <!-- ✍️ REDAÇÃO — MÊS DA MULHER -->
       <article class="card --warning">
         <div class="card-top">
-          <div class="card-icon">🐍</div>
+          <div class="card-icon">✍️</div>
           <div class="card-info">
-            <div class="card-label">Trabalho</div>
-            <h2 class="card-heading">Trabalho de Biologia</h2>
+            <div class="card-label">Redação</div>
+            <h2 class="card-heading">Redação — Mês da Mulher</h2>
           </div>
         </div>
         <div class="card-meta">
@@ -896,14 +829,60 @@
           </div>
           <div class="tag --status --unconfirmed">
             <div class="blink"></div>
-            Sem confirmação
+            Data indefinida
           </div>
         </div>
         <div class="card-body">
-          Criar um <em>panfleto de conscientização</em> acerca das cobras endêmicas do Espírito Santo.
+          Redação associada ao <em>cronograma de palestras do mês da mulher</em>. O tema é argumentar sobre a <em>violência à mulher</em>.
         </div>
         <div class="card-tip --warn">
-          <p>⚠ Sem confirmação oficial. Talvez o novo professor assuma esse trabalho e pontue. Aguardar atualização.</p>
+          <p>⚠ Data ainda não especificada. Fique atento aos comunicados para a confirmação.</p>
+        </div>
+      </article>
+
+      <!-- 🎤 SEMINÁRIO DE PORTUGUÊS -->
+      <article class="card">
+        <div class="card-top">
+          <div class="card-icon">🎤</div>
+          <div class="card-info">
+            <div class="card-label">Seminário</div>
+            <h2 class="card-heading">Seminário de Português — Vanguardas Europeias</h2>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="tag --date">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            Segunda a Sexta — 13/04 a 17/04
+          </div>
+        </div>
+        <div class="card-body">
+          Seminário sobre <em>vanguardas europeias</em>. São <em>5 grupos</em>, cada um responsável por uma vanguarda. A organização dos slides está especificada nas mídias do grupo.
+        </div>
+        <div class="card-tip --info">
+          <p>💡 Confira as mídias do grupo para detalhes sobre a organização dos slides e a distribuição das vanguardas.</p>
+        </div>
+      </article>
+
+      <!-- 📓 CORREÇÃO DO CADERNO -->
+      <article class="card">
+        <div class="card-top">
+          <div class="card-icon">📓</div>
+          <div class="card-info">
+            <div class="card-label">Correção</div>
+            <h2 class="card-heading">Correção do Caderno de Português</h2>
+          </div>
+        </div>
+        <div class="card-meta">
+          <div class="tag --date">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            Segunda a Quinta — 27/04 a 30/04
+          </div>
+        </div>
+        <div class="card-body">
+          <em>Correção do caderno</em> de Português. Mantenha o caderno em dia com todas as atividades e anotações.
+        </div>
+        <div class="card-tip --info">
+          <p>💡 Certifique-se de que todas as atividades e conteúdos estejam registrados no caderno antes da data.</p>
         </div>
       </article>
 
@@ -921,4 +900,4 @@
   </div>
 
 </body>
-</html>
+            </html>
